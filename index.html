@@ -3,201 +3,203 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>GHOST | Vercel Suite</title>
+    <title>GHOST | Internal Suite</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root {
             --gold: #d4af37;
-            --dark-bg: #000000;
-            --glass: rgba(25, 25, 25, 0.7);
+            --premium-black: #050505;
+            --glass: rgba(15, 15, 15, 0.8);
         }
         body {
-            background-color: var(--dark-bg);
+            background-color: var(--premium-black);
             color: #fff;
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
-            -webkit-tap-highlight-color: transparent;
+            font-family: 'Inter', -apple-system, sans-serif;
+            overflow-x: hidden;
         }
-        .premium-card {
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(212, 175, 55, 0.15);
-            border-radius: 28px;
-        }
-        .gold-text {
+        .gold-gradient {
             background: linear-gradient(135deg, #d4af37 0%, #f7ef8a 50%, #b8860b 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .btn-main {
-            background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
-            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
+        .glass-panel {
+            background: var(--glass);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            border-radius: 35px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
-        /* Tab Styles */
-        .tab { transition: 0.3s; color: #666; font-size: 11px; font-weight: 700; letter-spacing: 1px; }
-        .tab.active { color: var(--gold); border-bottom: 2px solid var(--gold); }
+        /* Ghost Logo Animation */
+        .ghost-logo {
+            filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
+            cursor: pointer;
+            transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .ghost-logo:hover { transform: scale(1.1) rotate(5deg); filter: drop-shadow(0 0 20px var(--gold)); }
         
-        /* Mobile Smooth Scroll */
-        .no-scrollbar::-webkit-scrollbar { display: none; }
+        /* Loading Overlay */
+        #loadingOverlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.9);
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        /* Custom Upload Area */
+        .upload-box {
+            border: 2px dashed rgba(212, 175, 55, 0.2);
+            transition: 0.3s;
+        }
+        .upload-box:hover { border-color: var(--gold); background: rgba(212, 175, 55, 0.05); }
+
+        .hidden-content { display: none; }
         
-        /* Animations */
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fade { animation: fadeIn 0.5s ease forwards; }
+        .profile-badge {
+            background: linear-gradient(90deg, rgba(212,175,55,0.1), transparent);
+            border-left: 3px solid var(--gold);
+        }
     </style>
 </head>
-<body class="safe-area-inset-top">
+<body>
 
-    <!-- Header Area -->
-    <div class="px-6 pt-8 pb-4">
-        <div class="flex justify-between items-center">
-            <div>
-                <h1 class="text-2xl font-black tracking-tight gold-text">GHOST.v3</h1>
-                <p class="text-[10px] text-gray-500 tracking-[3px] uppercase">Nexus Controller</p>
-            </div>
-            <div class="h-10 w-10 rounded-full border border-gold/20 flex items-center justify-center bg-gray-900">
-                <i class="fas fa-user-shield text-xs text-gold"></i>
-            </div>
+    <div id="loadingOverlay">
+        <div class="relative w-20 h-20 mb-6">
+            <div class="absolute inset-0 border-4 border-gold/10 rounded-full"></div>
+            <div class="absolute inset-0 border-4 border-t-gold rounded-full animate-spin"></div>
         </div>
+        <p class="text-gold tracking-[5px] font-bold animate-pulse uppercase text-sm">Uploading Ghost Files...</p>
     </div>
 
-    <!-- Main Mobile Layout -->
-    <div class="px-4 pb-20 space-y-6 max-w-md mx-auto">
+    <div class="max-w-md mx-auto px-6 py-10">
         
-        <!-- API Token Section -->
-        <div class="premium-card p-5 animate-fade">
-            <label class="text-[10px] font-bold text-gray-500 uppercase mb-2 block">Vercel Authority Key</label>
-            <input type="password" id="apiToken" placeholder="Paste Bearer Token" 
-                class="w-full bg-black/50 border border-gray-800 rounded-xl px-4 py-3 text-sm outline-none focus:border-gold/50 transition">
+        <div class="text-center mb-12">
+            <div onclick="openProjectPrompt()" class="inline-block mb-4">
+                <i class="fas fa-ghost text-6xl ghost-logo gold-gradient"></i>
+            </div>
+            <h1 class="text-3xl font-black tracking-tighter uppercase italic">Internal<span class="gold-gradient">Suite</span></h1>
+            <p class="text-[9px] text-gray-500 tracking-[5px] mt-2">SECURE DEPLOYMENT PROTOCOL</p>
         </div>
 
-        <!-- Deployer UI -->
-        <div class="premium-card p-5 animate-fade" style="animation-delay: 0.1s;">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="font-bold">Deploy Module</h2>
-                <span class="text-[10px] text-gold animate-pulse" id="statusText">READY</span>
-            </div>
-            
-            <input type="text" id="projName" placeholder="project-name" 
-                class="w-full bg-black/50 border border-gray-800 rounded-xl px-4 py-3 text-sm mb-4 outline-none focus:border-gold/50">
-
-            <div class="flex gap-4 border-b border-gray-800 mb-4">
-                <button onclick="switchTab('html')" id="tab-html" class="tab active pb-2 uppercase">HTML</button>
-                <button onclick="switchTab('css')" id="tab-css" class="tab pb-2 uppercase">CSS</button>
-                <button onclick="switchTab('js')" id="tab-js" class="tab pb-2 uppercase">JS</button>
-            </div>
-
-            <textarea id="codeEditor" rows="8" class="w-full bg-transparent font-mono text-xs text-gray-400 outline-none resize-none no-scrollbar" placeholder="Enter code here..."></textarea>
-            
-            <button onclick="realDeploy()" id="deployBtn" class="w-full btn-main text-black font-bold py-4 rounded-2xl mt-4 text-sm tracking-widest">
-                START DEPLOYMENT
-            </button>
-            <div id="urlContainer" class="hidden mt-4 p-3 bg-gold/10 border border-gold/20 rounded-xl text-center">
-                <p class="text-[10px] text-gray-400 mb-1">LIVE URL:</p>
-                <a id="liveLink" href="#" target="_blank" class="text-gold font-bold text-xs break-all underline"></a>
+        <div id="projectPrompt" class="hidden-content animate-fade mb-6">
+            <div class="glass-panel p-6">
+                <h3 class="text-xs font-bold text-gold mb-4 tracking-widest uppercase">Target Identity</h3>
+                <input type="text" id="targetName" placeholder="Enter Project Name..." 
+                    class="w-full bg-black/50 border border-white/5 rounded-2xl px-5 py-4 text-sm outline-none focus:border-gold/40 transition">
+                <button onclick="saveProject()" class="w-full bg-white text-black font-bold py-4 rounded-2xl mt-4 text-xs tracking-widest hover:bg-gold transition">
+                    SAVE TO PROFILE
+                </button>
             </div>
         </div>
 
-        <!-- Active Grid -->
-        <div class="premium-card p-5 animate-fade" style="animation-delay: 0.2s;">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="font-bold text-sm uppercase tracking-wider">Active Threads</h2>
-                <button onclick="loadProjects()" class="text-xs text-gray-500"><i class="fas fa-sync-alt"></i></button>
-            </div>
-            <div id="projectList" class="space-y-3 max-h-60 overflow-y-auto no-scrollbar">
-                <!-- Projects go here -->
+        <div id="profileSection" class="hidden-content mb-8">
+            <div class="glass-panel p-5 profile-badge">
+                <div class="flex items-center gap-4">
+                    <div class="h-12 w-12 rounded-2xl bg-gold/20 flex items-center justify-center border border-gold/30">
+                        <i class="fas fa-id-badge text-gold"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-gray-500 uppercase tracking-tighter">Active Session</p>
+                        <h2 id="displayProjName" class="font-bold text-lg tracking-tight"></h2>
+                    </div>
+                </div>
             </div>
         </div>
+
+        <div class="space-y-6">
+            <div class="glass-panel p-6 text-center upload-box" onclick="document.getElementById('fileIn').click()">
+                <i class="fas fa-cloud-upload-alt text-3xl text-gray-600 mb-3"></i>
+                <p class="text-xs font-medium text-gray-400">Tap to Upload Ghost Files</p>
+                <input type="file" id="fileIn" class="hidden" multiple onchange="handleFileUpload()">
+            </div>
+
+            <div class="glass-panel p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-[10px] font-bold text-gold tracking-widest">SOURCE CODE</span>
+                    <i class="fas fa-code text-gray-700"></i>
+                </div>
+                <textarea id="codeEditor" rows="6" placeholder="Paste your HTML/CSS/JS here..." 
+                    class="w-full bg-transparent font-mono text-xs text-gray-500 outline-none resize-none"></textarea>
+                
+                <button onclick="startGhostDeployment()" class="w-full bg-gradient-to-r from-gold to-yellow-600 text-black font-black py-5 rounded-3xl mt-6 text-sm tracking-[3px] shadow-lg shadow-gold/20">
+                    LAUNCH DEPLOY
+                </button>
+            </div>
+        </div>
+
     </div>
 
     <script>
-        let codes = { html: '', css: '', js: '' };
-        let activeTab = 'html';
-        const editor = document.getElementById('codeEditor');
+        // CONFIG: Oyaage Vercel Token eka methanata danna
+        const VERCEL_TOKEN = "PASTE_YOUR_VERCEL_TOKEN_HERE";
 
-        function switchTab(t) {
-            codes[activeTab] = editor.value;
-            document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
-            document.getElementById('tab-'+t).classList.add('active');
-            activeTab = t;
-            editor.value = codes[t];
+        let currentProject = "";
+        let uploadedContent = "";
+
+        function openProjectPrompt() {
+            const prompt = document.getElementById('projectPrompt');
+            prompt.style.display = prompt.style.display === 'block' ? 'none' : 'block';
         }
 
-        async function realDeploy() {
-            const token = document.getElementById('apiToken').value;
-            const name = document.getElementById('projName').value;
-            codes[activeTab] = editor.value;
+        function saveProject() {
+            const name = document.getElementById('targetName').value;
+            if(name.length < 3) return alert("Valid Name Required");
+            
+            currentProject = name;
+            document.getElementById('displayProjName').innerText = name.toUpperCase();
+            document.getElementById('projectPrompt').style.display = 'none';
+            document.getElementById('profileSection').style.display = 'block';
+        }
 
-            if(!token || !name) return alert("Fill all fields!");
+        function handleFileUpload() {
+            const file = document.getElementById('fileIn').files[0];
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                uploadedContent = e.target.result;
+                document.getElementById('codeEditor').value = "FILE LOADED: [CONTENT ENCRYPTED]";
+                document.getElementById('codeEditor').readOnly = true;
+            };
+            reader.readAsText(file);
+        }
 
-            const btn = document.getElementById('deployBtn');
-            const status = document.getElementById('statusText');
-            btn.disabled = true;
-            btn.innerText = "UPLOADING...";
-            status.innerText = "BUSY";
+        async function startGhostDeployment() {
+            if(!currentProject) return alert("Click Ghost Logo and save project name first!");
+            const finalCode = uploadedContent || document.getElementById('codeEditor').value;
 
-            // Real Vercel Deployment Logic (Minimal)
-            try {
-                // Combined files for instant deployment
-                const combinedCode = `
-                    ${codes.html}
-                    <style>${codes.css}</style>
-                    <script>${codes.js}<\/script>
-                `;
+            // Show Loading for 5 Seconds
+            const loader = document.getElementById('loadingOverlay');
+            loader.style.display = 'flex';
 
-                const res = await fetch('https://api.vercel.com/v13/deployments', {
-                    method: 'POST',
-                    headers: { 'Authorization': `Bearer ${token}` },
-                    body: JSON.stringify({
-                        name: name,
-                        files: [{ file: 'index.html', data: combinedCode }],
-                        projectSettings: { framework: null }
-                    })
-                });
+            setTimeout(async () => {
+                try {
+                    const response = await fetch('https://api.vercel.com/v13/deployments', {
+                        method: 'POST',
+                        headers: { 'Authorization': `Bearer ${VERCEL_TOKEN}` },
+                        body: JSON.stringify({
+                            name: currentProject,
+                            files: [{ file: 'index.html', data: finalCode }],
+                            projectSettings: { framework: null }
+                        })
+                    });
 
-                const data = await res.json();
-                if(data.url) {
-                    document.getElementById('urlContainer').classList.remove('hidden');
-                    document.getElementById('liveLink').href = 'https://' + data.url;
-                    document.getElementById('liveLink').innerText = data.url;
-                    btn.innerText = "SUCCESSFUL";
-                    status.innerText = "READY";
-                    setTimeout(() => { btn.innerText = "START DEPLOYMENT"; btn.disabled = false; }, 3000);
-                    loadProjects();
-                } else {
-                    alert("Error: " + (data.error?.message || "Failed"));
-                    btn.disabled = false;
-                    btn.innerText = "START DEPLOYMENT";
+                    const data = await response.json();
+                    loader.style.display = 'none';
+
+                    if(data.url) {
+                        alert("GHOST DEPLOYED SUCCESSFULLY!\nURL: https://" + data.url);
+                        window.open('https://' + data.url, '_blank');
+                    } else {
+                        alert("Deploy Error: " + data.error.message);
+                    }
+                } catch (e) {
+                    loader.style.display = 'none';
+                    alert("System Link Failure");
                 }
-            } catch (e) { alert("Network Error"); btn.disabled = false; }
-        }
-
-        async function loadProjects() {
-            const token = document.getElementById('apiToken').value;
-            if(!token) return;
-            const res = await fetch('https://api.vercel.com/v9/projects', {
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            const data = await res.json();
-            const list = document.getElementById('projectList');
-            list.innerHTML = '';
-            data.projects.forEach(p => {
-                list.innerHTML += `
-                    <div class="bg-black/40 p-3 rounded-xl flex justify-between items-center border border-gray-800">
-                        <span class="text-xs font-medium">${p.name}</span>
-                        <button onclick="delProject('${p.id}')" class="text-red-500 text-[10px] uppercase font-bold">Kill</button>
-                    </div>
-                `;
-            });
-        }
-
-        async function delProject(id) {
-            if(!confirm("Terminate thread?")) return;
-            const token = document.getElementById('apiToken').value;
-            await fetch(`https://api.vercel.com/v9/projects/${id}`, {
-                method: 'DELETE',
-                headers: { 'Authorization': `Bearer ${token}` }
-            });
-            loadProjects();
+            }, 5000); // 5 Seconds Delay
         }
     </script>
 </body>
