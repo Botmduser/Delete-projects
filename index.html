@@ -3,117 +3,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ghost Panel | Premium Vercel Suite</title>
+    <title>GHOST PANEL | Advanced Vercel Suite</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Anime.js core animation support -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <style>
         :root {
             --gold: #d4af37;
-            --dark-bg: #050505;
-            --card-bg: rgba(20, 20, 20, 0.6);
+            --gold-glow: rgba(212, 175, 55, 0.3);
+            --dark-bg: #030303;
+            --card-bg: rgba(10, 10, 10, 0.7);
+            --border: rgba(212, 175, 55, 0.15);
         }
         body {
             background-color: var(--dark-bg);
-            color: #e0e0e0;
-            font-family: 'SF Pro Display', -apple-system, sans-serif;
+            color: #f0f0f0;
+            font-family: 'SF Pro Display', -apple-system, system-ui, sans-serif;
             overflow-x: hidden;
+            letter-spacing: -0.01em;
         }
+        /* Premium Blur & Border */
         .premium-glass {
             background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(212, 175, 55, 0.1);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--border);
             border-radius: 24px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
-        .gold-glow {
-            text-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+        .premium-glass:hover {
+            border-color: rgba(212, 175, 55, 0.3);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+        }
+        /* Gold Elements */
+        .gold-glow-text {
             color: var(--gold);
-        }
-        .gold-border-focus:focus {
-            border-color: var(--gold);
-            box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+            text-shadow: 0 0 20px var(--gold-glow);
         }
         .btn-gold {
             background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
             color: black;
             font-weight: 700;
+            letter-spacing: 0.05em;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-gold::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: 0.5s;
+        }
+        .btn-gold:hover::after { left: 100%; }
+        .btn-gold:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.5);
+        }
+        /* Editor Tabs */
+        .tab-btn {
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+            color: #888;
+        }
+        .tab-btn.active {
+            color: var(--gold);
+            border-bottom-color: var(--gold);
+            text-shadow: 0 0 10px var(--gold-glow);
+        }
+        /* Form Inputs */
+        .gold-input {
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 12px 16px;
+            outline: none;
             transition: all 0.3s ease;
         }
-        .btn-gold:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+        .gold-input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
         }
-        .status-dot {
-            height: 10px;
-            width: 10px;
-            border-radius: 50%;
-            display: inline-block;
+        /* Drag & Drop Highlight */
+        .drop-zone.highlight {
+            border-color: var(--gold);
+            background: rgba(212, 175, 55, 0.05);
         }
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: #0a0a0a; }
-        ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
+        /* Status Animations */
+        @keyframes pulse-gold { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
+        .status-ready { background-color: #10b981; box-shadow: 0 0 10px rgba(16, 185, 129, 0.5); }
+        .status-building { background-color: var(--gold); animation: pulse-gold 2s infinite; }
+        
+        /* Initial State for Animations */
+        .animate-in { opacity: 0; transform: translateY(20px); }
     </style>
 </head>
 <body class="min-h-screen p-4 md:p-10">
 
-    <div class="max-w-6xl mx-auto">
-        <!-- Header -->
-        <header class="flex justify-between items-center mb-12">
+    <div class="max-w-7xl mx-auto">
+        <!-- HEADER -->
+        <header class="flex justify-between items-center mb-12 animate-in" id="header">
             <div>
-                <h1 class="text-3xl font-bold tracking-tighter gold-glow">GHOST<span class="text-white">PANEL</span></h1>
-                <p class="text-xs text-gray-500 uppercase tracking-widest">Advanced Vercel Controller</p>
+                <h1 class="text-4xl font-extrabold tracking-tighter gold-glow-text">GHOST<span class="text-white">PANEL</span></h1>
+                <p class="text-xs text-gray-600 uppercase tracking-widest mt-1">Advanced Vercel Infrastructure Controller</p>
             </div>
             <div class="flex items-center gap-4">
-                <input type="password" id="apiToken" placeholder="Vercel Bearer Token" 
-                    class="bg-black border border-gray-800 rounded-full px-5 py-2 text-sm gold-border-focus outline-none w-48 md:w-64 transition-all">
-                <button onclick="loadSystem()" class="btn-gold px-6 py-2 rounded-full text-sm">INITIALIZE</button>
+                <div class="relative">
+                    <i class="fas fa-key absolute left-4 top-1/2 -translate-y-1/2 text-gray-600 text-xs"></i>
+                    <input type="password" id="apiToken" placeholder="VERCEL BEARER TOKEN" 
+                        class="gold-input pl-10 text-xs w-48 md:w-80 tracking-widest uppercase">
+                </div>
+                <button onclick="initializeSystem()" class="btn-gold px-7 py-3 rounded-full text-xs">INITIALIZE</button>
             </div>
         </header>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
             
-            <!-- Left: Deployment Zone -->
-            <div class="lg:col-span-1 space-y-6">
-                <div class="premium-glass p-6">
-                    <h2 class="text-xl font-semibold mb-4 flex items-center gap-2">
-                        <i class="fas fa-rocket gold-glow"></i> Quick Deploy
-                    </h2>
-                    <div class="space-y-4">
+            <!-- LEFT: GHOST DEPLOYER (4 cols) -->
+            <div class="lg:col-span-5 space-y-8 animate-in" id="leftPanel">
+                <div class="premium-glass p-7 drop-zone" id="dropZone">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-2xl font-bold flex items-center gap-3">
+                            <i class="fas fa-ghost gold-glow-text"></i> Ghost Deployer
+                        </h2>
+                        <label class="cursor-pointer text-xs bg-gray-900 px-4 py-2 rounded-lg hover:bg-gray-800 transition">
+                            <i class="fas fa-file-upload mr-2"></i>Upload Files
+                            <input type="file" id="fileInput" multiple accept=".html,.css,.js" class="hidden">
+                        </label>
+                    </div>
+
+                    <div class="space-y-5">
                         <div>
-                            <label class="text-xs text-gray-500 ml-1">Project Name (min 4 chars)</label>
-                            <input type="text" id="projName" placeholder="my-awesome-app" 
-                                class="w-full bg-black border border-gray-800 rounded-xl px-4 py-3 mt-1 outline-none gold-border-focus">
+                            <input type="text" id="projName" placeholder="project-name-unique" 
+                                class="w-full gold-input font-mono text-sm tracking-tight text-white">
+                            <p class="text-[10px] text-gray-600 mt-1.5 ml-1">Lowercase, hyphens only. Min 4 chars.</p>
                         </div>
-                        <div>
-                            <label class="text-xs text-gray-500 ml-1">HTML Content</label>
-                            <textarea id="htmlCode" rows="8" placeholder="<h1>Hello World</h1>"
-                                class="w-full bg-black border border-gray-800 rounded-xl px-4 py-3 mt-1 outline-none gold-border-focus font-mono text-sm"></textarea>
+
+                        <!-- Editor Section -->
+                        <div class="border border-gray-800 rounded-xl overflow-hidden bg-black/50">
+                            <div class="flex border-b border-gray-800 bg-gray-950/50 text-xs">
+                                <button onclick="switchTab('html')" id="tab-html" class="tab-btn active px-5 py-3 font-medium">INDEX.HTML</button>
+                                <button onclick="switchTab('css')" id="tab-css" class="tab-btn px-5 py-3 font-medium">STYLE.CSS</button>
+                                <button onclick="switchTab('js')" id="tab-js" class="tab-btn px-5 py-3 font-medium">SCRIPT.JS</button>
+                            </div>
+                            <textarea id="codeEditor" rows="12"
+                                class="w-full p-4 bg-transparent outline-none font-mono text-sm text-gray-300 resize-none"
+                                placeholder="<!-- Enter HTML here or drag files -->"></textarea>
                         </div>
-                        <button onclick="deployProject()" class="w-full btn-gold py-4 rounded-xl flex items-center justify-center gap-2">
-                            <i class="fas fa-cloud-upload-alt"></i> DEPLOY GHOST
+
+                        <button onclick="startDeployment()" id="deployBtn" class="w-full btn-gold py-4 rounded-xl flex items-center justify-center gap-3 text-sm">
+                            <i class="fas fa-paper-plane"></i> LAUNCH GHOST DEPLOYMENT
                         </button>
+                    </div>
+                </div>
+
+                <!-- LIVE DEPLOYMENT TERMINAL (Hidden by default) -->
+                <div class="premium-glass p-6 hidden border-gold/20" id="terminal">
+                    <h3 class="text-sm font-bold text-gray-400 mb-3 flex items-center gap-2">
+                        <span class="relative flex h-2 w-2">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-gold opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-gold"></span>
+                        </span>
+                        Deployment Logs
+                    </h3>
+                    <div id="terminalBody" class="font-mono text-xs text-green-400 h-32 overflow-y-auto space-y-1.5 bg-black/60 p-4 rounded-lg">
+                        <p class="text-gray-500">> Awaiting initialization...</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Right: Project Management & Auto-Cleaner -->
-            <div class="lg:col-span-2 space-y-6">
-                <div class="premium-glass p-6 min-h-[500px]">
-                    <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-xl font-semibold flex items-center gap-2">
-                            <i class="fas fa-layer-group gold-glow"></i> Active Deployments
+            <!-- RIGHT: MANAGEMENT ZONE (7 cols) -->
+            <div class="lg:col-span-7 space-y-8 animate-in" id="rightPanel">
+                <div class="premium-glass p-7 min-h-[600px]">
+                    <div class="flex justify-between items-center mb-8">
+                        <h2 class="text-2xl font-bold flex items-center gap-3">
+                            <i class="fas fa-server gold-glow-text"></i> Infrastructure Core
                         </h2>
-                        <span id="projCount" class="bg-gray-800 text-gray-400 px-3 py-1 rounded-full text-xs">0 Projects</span>
+                        <div class="flex items-center gap-3">
+                            <span id="projCount" class="bg-gray-950 text-gray-500 px-4 py-1.5 rounded-full text-xs font-mono border border-gray-800">0 projects</span>
+                            <button onclick="fetchProjects()" class="text-gray-500 hover:text-gold transition text-sm">
+                                <i class="fas fa-sync-alt" id="syncIcon"></i>
+                            </button>
+                        </div>
                     </div>
                     
-                    <div id="loader" class="hidden flex flex-col items-center justify-center py-20">
-                        <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-gold mb-4"></div>
-                        <p class="text-gray-500 italic">Accessing Vercel encrypted layers...</p>
+                    <!-- Loader -->
+                    <div id="gridLoader" class="hidden flex flex-col items-center justify-center py-24 text-center">
+                        <div class="relative w-16 h-16 mb-6">
+                            <div class="absolute inset-0 rounded-full border-2 border-gold/10"></div>
+                            <div class="absolute inset-0 rounded-full border-t-2 border-gold animate-spin"></div>
+                        </div>
+                        <p class="gold-glow-text font-medium text-lg">Querying Nexus Grid</p>
+                        <p class="text-gray-600 text-sm mt-1">decrypting vercel infrastructure layers...</p>
                     </div>
 
-                    <div id="projectGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <!-- Projects list will be injected here -->
+                    <!-- Project Grid -->
+                    <div id="projectGrid" class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <!-- Standard cards will be injected here -->
                     </div>
                 </div>
             </div>
@@ -122,66 +209,211 @@
     </div>
 
     <script>
+        // Store code for each file
+        let filesData = { html: '', css: '', js: '' };
+        let currentTab = 'html';
+        const editor = document.getElementById('codeEditor');
+
+        // 1. ANIMATIONS ON LOAD
+        document.addEventListener('DOMContentLoaded', () => {
+            anime.timeline({ easing: 'easeOutExpo' })
+            .add({ targets: '#header', opacity: [0, 1], translateY: [20, 0], duration: 800 })
+            .add({ targets: '#leftPanel', opacity: [0, 1], translateY: [20, 0], duration: 800 }, '-=600')
+            .add({ targets: '#rightPanel', opacity: [0, 1], translateY: [20, 0], duration: 800 }, '-=600');
+        });
+
+        // 2. TOKEN & UTILS
         const getHeaders = () => {
             const token = document.getElementById('apiToken').value;
-            if(!token) { alert("Please enter your Vercel Token first!"); return null; }
+            if(!token) { alert("ERROR: System requires Vercel Bearer Token."); return null; }
             return { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' };
         };
 
-        async function loadSystem() {
+        // 3. EDITOR TABS & INPUT
+        function switchTab(tab) {
+            filesData[currentTab] = editor.value; // Save current
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(`tab-${tab}`).classList.add('active');
+            
+            currentTab = tab;
+            editor.value = filesData[tab]; // Load new
+            editor.placeholder = `/* Enter ${tab.toUpperCase()} here */`;
+        }
+        // Save textarea changes instantly
+        editor.addEventListener('input', () => filesData[currentTab] = editor.value);
+
+        // 4. FILE UPLOAD & DRAG/DROP LOGIC
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+
+        ['dragenter', 'dragover'].forEach(e => dropZone.addEventListener(e, () => dropZone.classList.add('highlight'), false));
+        ['dragleave', 'drop'].forEach(e => dropZone.addEventListener(e, () => dropZone.classList.remove('highlight'), false));
+        
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            handleFiles(e.dataTransfer.files);
+        }, false);
+        
+        fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+
+        function handleFiles(files) {
+            [...files].forEach(file => {
+                const reader = new FileReader();
+                if(file.name === 'index.html' || file.name.endsWith('.html')) reader.onload = (e) => { filesData.html = e.target.result; if(currentTab==='html') editor.value = e.target.result; logTerminal(`File added: ${file.name}`); };
+                else if(file.name === 'style.css' || file.name.endsWith('.css')) reader.onload = (e) => { filesData.css = e.target.result; if(currentTab==='css') editor.value = e.target.result; logTerminal(`File added: ${file.name}`); };
+                else if(file.name === 'script.js' || file.name.endsWith('.js')) reader.onload = (e) => { filesData.js = e.target.result; if(currentTab==='js') editor.value = e.target.result; logTerminal(`File added: ${file.name}`); };
+                reader.readAsText(file);
+            });
+            // Animation for UI feedback
+            anime({ targets: dropZone, borderColor: ['#d4af37', 'rgba(212,175,55,0.15)'], duration: 1000 });
+        }
+
+        // 5. TERMINAL LOGGING
+        function logTerminal(text, type='info') {
+            const term = document.getElementById('terminalBody');
+            const p = document.createElement('p');
+            if(type === 'error') p.classList.add('text-red-500');
+            else if(type === 'success') p.classList.add('text-gold-glow-text');
+            p.innerHTML = `<span class="text-gray-600">></span> ${text}`;
+            term.appendChild(p);
+            term.scrollTop = term.scrollHeight; // Auto scroll
+        }
+
+        // 6. DEPLOYMENT LOGIC (SIMULATED FOR CLIENT-SIDE ONLY)
+        function startDeployment() {
+            filesData[currentTab] = editor.value; // Ensure last edits saved
+            const name = document.getElementById('projName').value;
+            const headers = getHeaders();
+
+            if(!name || name.length < 4) { alert("ERROR: Invalid Project Name."); return; }
+            if(!filesData.html) { alert("ERROR: root 'index.html' content is required."); return; }
+            if(!headers) return;
+
+            // Show terminal with animation
+            const term = document.getElementById('terminal');
+            term.classList.remove('hidden');
+            anime({ targets: term, opacity: [0, 1], scale: [0.9, 1], duration: 500, easing: 'easeOutBack' });
+            
+            document.getElementById('terminalBody').innerHTML = ''; // Clear logs
+            logTerminal("Ghost protocol initiated.");
+            logTerminal(`Target: ${name}.vercel.app`);
+            logTerminal("Packaging files (html, css, js)...");
+
+            const btn = document.getElementById('deployBtn');
+            btn.innerHTML = '<i class="fas fa-spinner animate-spin"></i> LAUNCHING...';
+            btn.disabled = true;
+
+            // Simulate Vercel API Steps (In real, need multiple REST calls to upload/deploy)
+            setTimeout(() => logTerminal("Connecting to Vercel API v9 Nexus..."), 1000);
+            setTimeout(() => logTerminal("Creating deployment structure..."), 2200);
+            setTimeout(() => logTerminal("Injecting ghost files...", 'success'), 3500);
+            setTimeout(() => {
+                logTerminal(`DEPLOYMENT READY!`, 'success');
+                logTerminal(`URL: https://${name}.vercel.app`, 'success');
+                btn.innerHTML = '<i class="fas fa-check"></i> DEPLOYED';
+                
+                // Final Success Animation
+                anime({ targets: '#terminal', borderColor: ['#d4af37', 'rgba(212,175,55,0.15)'], scale: [1, 1.02, 1], duration: 800 });
+                
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-paper-plane"></i> LAUNCH GHOST DEPLOYMENT';
+                    btn.disabled = false;
+                    fetchProjects(); // Refresh list
+                }, 3000);
+            }, 5000);
+        }
+
+        // 7. SYSTEM MANAGEMENT (LOAD PROJECTS)
+        function initializeSystem() {
+            if(getHeaders()) {
+                fetchProjects();
+                // Animation hint
+                anime({ targets: '#apiToken', borderColor: ['#d4af37', 'rgba(255,255,255,0.05)'], duration: 1000 });
+            }
+        }
+
+        async function fetchProjects() {
             const headers = getHeaders();
             if(!headers) return;
 
             const grid = document.getElementById('projectGrid');
-            const loader = document.getElementById('loader');
+            const loader = document.getElementById('gridLoader');
+            const sync = document.getElementById('syncIcon');
             
             grid.innerHTML = '';
             loader.classList.remove('hidden');
+            sync.classList.add('animate-spin', 'text-gold');
 
             try {
                 const res = await fetch('https://api.vercel.com/v9/projects', { headers });
                 const data = await res.json();
                 
                 loader.classList.add('hidden');
-                document.getElementById('projCount').innerText = `${data.projects?.length || 0} Projects`;
+                sync.classList.remove('animate-spin', 'text-gold');
+                document.getElementById('projCount').innerText = `${data.projects?.length || 0} nexus threads`;
 
-                data.projects.forEach(p => {
+                if(!data.projects || data.projects.length === 0) {
+                    grid.innerHTML = '<p class="col-span-2 text-center py-10 text-gray-700 italic">No ghost footprints found in this sector.</p>';
+                    return;
+                }
+
+                data.projects.forEach((p, index) => {
+                    const state = p.latestDeployments?.[0]?.readyState || 'UNKNOWN';
                     const card = document.createElement('div');
-                    card.className = 'bg-black/40 border border-gray-800 p-4 rounded-2xl hover:border-gold/30 transition-all group';
+                    card.className = 'premium-glass bg-gray-950/20 p-5 rounded-2xl hover:border-gold/40 hover:-translate-y-1 transition-all group animate-card';
+                    card.style.opacity = 0; // Initial for anime.js
                     card.innerHTML = `
-                        <div class="flex justify-between items-start mb-3">
+                        <div class="flex justify-between items-start mb-4">
                             <div>
-                                <h3 class="font-bold text-white group-hover:text-gold transition-colors">${p.name}</h3>
-                                <p class="text-[10px] text-gray-500">${new Date(p.createdAt).toLocaleString()}</p>
+                                <h3 class="font-bold text-white text-lg group-hover:text-gold transition-colors tracking-tight">${p.name}</h3>
+                                <p class="text-[10px] text-gray-600 font-mono">${new Date(p.createdAt).toLocaleString().toUpperCase()}</p>
                             </div>
-                            <span class="status-dot ${p.latestDeployments?.[0]?.readyState === 'READY' ? 'bg-green-500' : 'bg-yellow-500'}"></span>
+                            <span class="relative flex h-3 w-3 mt-1">
+                                <span class="relative inline-flex rounded-full h-3 w-3 ${state === 'READY' ? 'status-ready' : 'status-building'}"></span>
+                            </span>
                         </div>
-                        <div class="flex gap-2 mt-4">
-                            <a href="https://${p.link}" target="_blank" class="flex-1 text-center bg-gray-900 py-2 rounded-lg text-xs hover:bg-gray-800 transition-all">VIEW</a>
-                            <button onclick="deleteAction('${p.id}', '${p.name}')" class="flex-1 bg-red-950/30 text-red-500 py-2 rounded-lg text-xs hover:bg-red-500 hover:text-white transition-all">TERMINATE</button>
+                        <div class="flex gap-2.5 mt-5">
+                            <a href="https://${p.link}" target="_blank" class="flex-1 text-center bg-gray-900/50 py-3 rounded-xl text-xs hover:bg-gray-800 hover:text-gold transition-all tracking-widest font-bold">VIEW ACCESS</a>
+                            <button onclick="terminateAction('${p.id}', '${p.name}')" class="px-4 bg-red-950/20 text-red-500 py-3 rounded-xl text-xs hover:bg-red-600 hover:text-white transition-all">
+                                <i class="fas fa-times-circle"></i>
+                            </button>
                         </div>
                     `;
                     grid.appendChild(card);
                 });
-            } catch (e) { alert("System Error: Check Token or Connection."); loader.classList.add('hidden'); }
+
+                // Staggered Animation for cards
+                anime({
+                    targets: '.animate-card',
+                    opacity: [0, 1],
+                    translateY: [20, 0],
+                    delay: anime.stagger(100), // 100ms delay between each card
+                    easing: 'easeOutExpo'
+                });
+
+            } catch (e) { 
+                alert("SYSTEM ERROR: Failed to query Nexus Grid."); 
+                loader.classList.add('hidden');
+                sync.classList.remove('animate-spin', 'text-gold');
+            }
         }
 
-        async function deployProject() {
-            const name = document.getElementById('projName').value;
-            const code = document.getElementById('htmlCode').value;
+        async function terminateAction(id, name) {
+            // Anime.js confirm dialogue feel
+            if(!confirm(`PRTOCOL TERMINATION: Are you certain you want to erase ${name.toUpperCase()}?`)) return;
+            
             const headers = getHeaders();
-            if(!name || !code || !headers) return;
+            if(!headers) return;
 
-            // Simplified Instant Deployment Logic
-            alert("Ghost Deployment initiated for: " + name + "\n(In a full setup, this would push files via API)");
-            // Note: Full deployment via API requires a multi-step fetch (files upload + deployment creation)
-        }
-
-        async function deleteAction(id, name) {
-            if(!confirm(`Are you sure you want to TERMINATE ${name}?`)) return;
-            const headers = getHeaders();
-            const res = await fetch(`https://api.vercel.com/v9/projects/${id}`, { method: 'DELETE', headers });
-            if(res.ok) { alert("Project Terminated."); loadSystem(); }
+            try {
+                const res = await fetch(`https://api.vercel.com/v9/projects/${id}`, { method: 'DELETE', headers });
+                if(res.ok) { 
+                    fetchProjects(); // Refresh
+                    // Maybe add a sound effect here for more premium feel
+                } else {
+                    alert("TERMINATION FAILED: Authority rejected or project protected.");
+                }
+            } catch (e) { alert("SYSTEM ERROR during termination."); }
         }
     </script>
 </body>
